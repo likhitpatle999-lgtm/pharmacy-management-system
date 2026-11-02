@@ -1,4 +1,4 @@
-const API_URL = "https://pharmacy-management-api-u5ag.onrender.com";
+const API_URL = 
 
 let token = localStorage.getItem("pharmacy_token");
 let medicines = [];
