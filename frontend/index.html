@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare | Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN / SIGNUP SCREEN -->
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-card">
+            <div class="brand-icon">✚</div>
+            <h1>PharmaCare</h1>
+            <p id="authSubtitle">Login to your account</p>
+
+            <form id="loginForm">
+                <input id="loginEmail" type="email" placeholder="Email address" required>
+                <input id="loginPassword" type="password" placeholder="Password" required>
+                <button class="primary-btn" type="submit">Login</button>
+            </form>
+
+            <form id="signupForm" hidden>
+                <input id="signupName" type="text" placeholder="Full name" required>
+                <input id="signupEmail" type="email" placeholder="Email address" required>
+                <input id="signupPassword" type="password" placeholder="Password (minimum 8 characters)" minlength="8"
+                    required>
+                <button class="primary-btn" type="submit">
+                    Create Account
+                </button>
+            </form>
+
+            <p id="authMessage" role="status"></p>
+
+            <div class="auth-switch">
+                <span id="switchText">Don't have an account?</span>
+                <button id="switchAuth" type="button">Sign up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APPLICATION -->
+    <div class="app" id="mainApp" hidden>
+
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">✚</div>
+                <div>
+                    <h2>PharmaCare</h2>
+                    <small>Management System</small>
+                </div>
+            </div>
+
+            <p class="menu-label">MAIN MENU</p>
+
+            <nav>
+                <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+                <a href="#inventory" class="nav-link">▣ Medicine Inventory</a>
+                <a href="#prescriptions" class="nav-link">▤ Prescriptions</a>
+                <a href="#alerts" class="nav-link">⚠ Stock & Expiry Alerts</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="profile-avatar" id="profileAvatar">U</div>
+                <div class="user-details">
+                    <strong id="currentUserName">User</strong>
+                    <small id="currentUserEmail">user@email.com</small>
+                    <button id="logoutBtn" type="button">Logout</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p>Welcome back! Here's your pharmacy overview.</p>
+                </div>
+                <div class="top-actions">
+                    <span class="online"><span></span> System Online</span>
+                    <div class="avatar" id="topAvatar">U</div>
+                </div>
+            </header>
+
+            <!-- DASHBOARD -->
+            <section id="dashboard" class="stats-grid page-section active">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Total Medicines</span>
+                        <div class="stat-icon green">✚</div>
+                    </div>
+                    <h2 id="totalMedicines">0</h2>
+                    <p>Medicines in inventory</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Low Stock Items</span>
+                        <div class="stat-icon orange">!</div>
+                    </div>
+                    <h2 id="lowStock">0</h2>
+                    <p>Require stock replenishment</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Prescriptions</span>
+                        <div class="stat-icon blue">▤</div>
+                    </div>
+                    <h2 id="totalPrescriptions">48</h2>
+                    <p>Demo prescription records</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Near Expiry</span>
+                        <div class="stat-icon red">◷</div>
+                    </div>
+                    <h2 id="nearExpiry">0</h2>
+                    <p>Need expiry review</p>
+                </div>
+            </section>
+
+            <!-- MEDICINE INVENTORY -->
+            <section id="inventory" class="panel page-section">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Medicine Inventory</h2>
+                        <p>Monitor your medicine stock and details.</p>
+                    </div>
+                    <button class="primary-btn" id="openAddForm">
+                        + Add Medicine
+                    </button>
+                </div>
+
+                <div id="medicineFormWrap" class="form-wrap" hidden>
+                    <h3>Add New Medicine</h3>
+
+                    <form id="medicineForm" class="medicine-form">
+                        <input id="medicineName" placeholder="Medicine name" required>
+                        <input id="batchNumber" placeholder="Batch number" required>
+                        <input id="medicineQuantity" type="number" min="0" placeholder="Quantity" required>
+                        <input id="medicinePrice" type="number" min="0" step="0.01" placeholder="Price (₹)" required>
+                        <input id="expiryDate" type="date" required>
+                        <button class="primary-btn" type="submit">
+                            Save Medicine
+                        </button>
+                        <button class="secondary-btn" id="cancelForm" type="button">
+                            Cancel
+                        </button>
+                    </form>
+                    <p id="formMessage" class="form-message" role="status"></p>
+                </div>
+
+                <div class="table-tools">
+                    <input id="searchMedicine" type="search" placeholder="Search medicine or batch number...">
+                    <span id="medicineCount">0 medicines</span>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MEDICINE</th>
+                                <th>BATCH NO.</th>
+                                <th>QUANTITY</th>
+                                <th>PRICE</th>
+                                <th>EXPIRY DATE</th>
+                                <th>STATUS</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medicineTable"></tbody>
+                    </table>
+                </div>
+                <p class="demo-note">
+                    Batch number is currently displayed as a generated ID.
+                    Permanent batch storage will be added to the backend separately.
+                </p>
+            </section>
+
+            <!-- PRESCRIPTIONS -->
+            <section id="prescriptions" class="panel page-section">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Prescription Processing</h2>
+                        <p>Review prescription records and their current status.</p>
+                    </div>
+                </div>
+
+                <div class="prescription-list">
+                    <div class="prescription-row">
+                        <div class="prescription-icon">▤</div>
+                        <div class="prescription-info">
+                            <strong>Prescription #P001</strong>
+                            <p>Sample Patient · Record only</p>
+                        </div>
+                        <span class="badge pending">Pending Review</span>
+                    </div>
+
+                    <div class="prescription-row">
+                        <div class="prescription-icon">▤</div>
+                        <div class="prescription-info">
+                            <strong>Prescription #P002</strong>
+                            <p>Demo Patient · Record only</p>
+                        </div>
+                        <span class="badge processed">Processed</span>
+                    </div>
+                </div>
+
+                <p class="demo-note">
+                    Prescription approval and dispensing are demo features for now.
+                </p>
+            </section>
+
+            <!-- STOCK AND EXPIRY ALERTS -->
+            <section id="alerts" class="panel page-section">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Stock & Expiry Alerts</h2>
+                        <p>Items that need attention.</p>
+                    </div>
+                </div>
+
+                <div id="alertList">
+                    <p class="demo-note">Loading alerts...</p>
+                </div>
+            </section>
+
+            <footer>
+                PharmaCare Management System · Educational Demo
+            </footer>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
